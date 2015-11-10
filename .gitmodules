@@ -1,0 +1,3 @@
+[submodule "browserplus/gaemechanize"]
+	path = browserplus/gaemechanize
+	url = https://github.com/vinceau/gae-mechanize

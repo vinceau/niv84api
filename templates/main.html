@@ -1,0 +1,39 @@
+{% extends "templates/base.html" %}
+{% block content %}
+<form id="demo">
+    <input id="search" type="text" value="Genesis 1" placeholder="Genesis 1" />
+    <input type="submit" value="Load" />
+</form>
+    <div id="scripture">Loading...</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function load_passage(passage) {
+    var bible_url = '/api/?passage=';
+    $.getJSON(bible_url + encodeURIComponent(passage), function(d) {
+        console.log("data: ", d);
+        console.log("Successfully data recived");
+        var text = '';
+        for (var i = 0; i < d.passages.length; i++ ) {
+            data = d.passages[i];
+            console.log(data);
+            text += '<h1>' + data.title + '</h1><div>';
+            $.each(data.verses, function(k, v) {
+                text += k + ' ' + v + ' ';
+            });
+            text += '</div>';
+        }
+        $('#scripture').html(text);
+    }).fail(function() {
+        $('#scripture').html('Error: Couldn\'t find passage: ' + passage);
+    });
+}
+$('#demo').submit(function(event) {
+    event.preventDefault();
+    load_passage($('#search').val());
+});
+$(document).ready(function() {
+    load_passage('Genesis 1');
+});
+</script>
+{% endblock %}
