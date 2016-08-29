@@ -1,5 +1,5 @@
 """
-scribdn
+NIV84 API
 """
 import os
 import jinja2
@@ -32,15 +32,17 @@ def load(passage):
         search = bp.find_all('div.scripture')
         if len(search) == 0:
             return {}
+        csssearch = '.verse .verse-number'
         title = bp.find('div.section-title h1').text
         for scripture in search:
             passage = OrderedDict()
             if len(search) > 1:
                 title = scripture.getparent().cssselect('h2 a')[0].text
+                csssearch = '.verse strong'
             for b in scripture.cssselect('sup a, div.panel'):
                 b.getparent().remove(b)
             verses = OrderedDict()
-            for v in scripture.cssselect('.verse .verse-number'):
+            for v in scripture.cssselect(csssearch):
                 #get the verse number
                 num = ''.join(v.itertext()).strip()
                 #get the actual verse content
