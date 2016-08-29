@@ -40,9 +40,12 @@ def load(passage):
             for b in scripture.cssselect('sup a, div.panel'):
                 b.getparent().remove(b)
             verses = OrderedDict()
-            for v in scripture.cssselect('.verse strong'):
-                num = v.text
-                verses[num] = ''.join(v.getnext().itertext()).strip()
+            for v in scripture.cssselect('.verse .verse-number'):
+                #get the verse number
+                num = ''.join(v.itertext()).strip()
+                #get the actual verse content
+                if v.getnext() is not None:
+                    verses[num] = ''.join(v.getnext().itertext()).strip()
             passage['title'] = title
             passage['verses'] = verses
             data['passages'].append(passage)
