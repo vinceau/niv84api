@@ -10,7 +10,6 @@ handlers:
 - url: /.*
   script: main.app
   secure: optional
-  http_headers: Access-Control-Allow-Origin: "*"
 
 libraries:
 - name: lxml
